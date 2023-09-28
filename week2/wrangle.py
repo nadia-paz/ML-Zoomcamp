@@ -78,4 +78,40 @@ def get_target_var(df: pd.DataFrame, target: str):
     del df[target]
 
     return y
-        
+
+# change prepare
+
+base = ['engine_hp', 'engine_cylinders', 'highway_mpg', 'city_mpg', 'popularity']
+def prepare_X(df: pd.DataFrame) -> pd.DataFrame:
+    '''
+    df: dataframe for the baseline model
+    cols: numeric column names
+    '''
+    df = df.copy()
+    features = base.copy()
+
+    df['age'] = 2017 - df.year
+    features.append('age')
+    
+    # go through number of doors
+    for v in [2, 3, 4]:
+        feature = 'num_doors_%s' % v
+        df[feature] = (df['number_of_doors'] == v).astype('uint8')
+        features.append(feature)
+
+    categorical_vars = ['make',  'engine_fuel_type', 'transmission_type', 'driven_wheels', 'market_category', 'vehicle_size', 'vehicle_style']
+    categories = {}
+
+    for c in categorical_vars:
+        categories[c] = list(df[c].value_counts().head().index)
+
+    for c, values in categories.items():
+        for v in values:
+            df['%s_%s' % (c, v)] = (df[c] == v).astype('uint8')
+            features.append('%s_%s' % (c, v))
+
+
+    df_new = df[features]
+    df_new = df_new.fillna(0)
+    X = df_new.values
+    return X
