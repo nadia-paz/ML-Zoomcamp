@@ -115,3 +115,56 @@ def get_p_values(df: pd.DataFrame, cat_vars: list[str], alpha:float = 0.1):
         p_values['is_significant'] = p_values['P_value'] < alpha
     
     return p_values
+
+def encode_dict_vect(train, val, test):
+    ''' 
+    encodes train/val/test with DictVectorizer
+    no first column drop
+    '''
+    # dataframes to lists of dictionaries
+    train_dict = train.to_dict(orient='records')
+    val_dict = val.to_dict(orient='records')
+    test_dict = test.to_dict(orient='records')
+
+    # create DictVectorizer
+    dv = DictVectorizer(sparse=False)
+
+    # fit on train, transform everything    
+    X_train = dv.fit_transform(train_dict)
+    X_val = dv.transform(val_dict)
+    X_test = dv.transform(test_dict)
+
+    return X_train, X_val, X_test
+
+def encode_one_hot(train, val, test):
+    ''' 
+    encodes train / val / test with OneHotEncoder
+    drops the first categorical value
+    '''
+    # get categorical and numerical column names
+    categorical = get_categorical(explore=False)
+    numerical = get_numerical(explore=False)
+
+    # create OneHotEncoder
+    ohe = OneHotEncoder(handle_unknown='ignore', drop='first', sparse_output=False)
+
+    # fit on train tranform everything using categorical values only
+    # concatenate with numerical columns
+    X_train = np.concatenate(
+    [
+        ohe.fit_transform(train[categorical]),
+        train[numerical]
+    ], axis = 1)
+    X_val = np.concatenate(
+    [
+        ohe.transform(val[categorical]),
+        val[numerical]
+    ], axis = 1)
+    X_test = np.concatenate(
+    [
+        ohe.transform(test[categorical]),
+        test[numerical]
+    ], axis = 1)
+
+    return X_train, X_val, X_test
+    
