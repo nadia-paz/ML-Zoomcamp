@@ -8,6 +8,8 @@ from sklearn.metrics import mutual_info_score
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import LogisticRegression
 
+drop_features = ['paymentmethod', 'multiplelines', 'gender', 'phoneservice', 'totalcharges']
+
 def get_telco_data():
     data = '../data/telco.csv'
     df = pd.read_csv(data)
@@ -34,6 +36,10 @@ def split_telco_data(df=get_telco_data(), seed=42, explore=True):
     if explore:
         return df_train_full.reset_index(drop=True)
     else:
+        df_train_full.drop(
+            drop_features, 
+            axis=1, 
+            inplace=True)
         df_train, df_val = train_test_split(df_train_full, test_size=0.25, random_state=seed)
         # get y arrays
         y_train = df_train.churn.values
@@ -48,10 +54,13 @@ def split_telco_data(df=get_telco_data(), seed=42, explore=True):
                df_val.reset_index(drop=True), \
                df_test.reset_index(drop=True), y_train, y_val, y_test
 
-def get_numerical():
-    return ['tenure', 'monthlycharges', 'totalcharges']
+def get_numerical(explore=True):
+    if explore:
+        return ['tenure', 'monthlycharges', 'totalcharges']
+    else:
+        return ['tenure', 'monthlycharges']
 
-def get_categorical():
+def get_categorical(explore=True):
     cat = ['gender',
     'seniorcitizen',
     'partner',
@@ -69,7 +78,10 @@ def get_categorical():
     'paperlessbilling',
     'paymentmethod'] 
 
-    return cat
+    if explore:
+        return cat
+    else:
+        return [c for c in cat if c not in drop_features]
 
 def get_p_values(df: pd.DataFrame, cat_vars: list[str], alpha:float = 0.1):
     '''
