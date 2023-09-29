@@ -92,7 +92,7 @@ def get_p_values(df: pd.DataFrame, cat_vars: list[str], alpha:float = 0.1):
         test = stats.chi2_contingency(observed)
         p_value = test[1]
         #add the result to the dictionary
-        p_v[col] = p_value
+        p_v[col] = p_value.round(3)
         
         #transform a dictionary to Series and then to Data Frame
         p_values = pd.Series(p_v).reset_index()
