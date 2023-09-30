@@ -6,6 +6,7 @@ from scipy import stats
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mutual_info_score
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.linear_model import LogisticRegression
 
 drop_features = ['paymentmethod', 'multiplelines', 'gender', 'phoneservice', 'totalcharges']
