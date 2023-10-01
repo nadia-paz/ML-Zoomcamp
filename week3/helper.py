@@ -21,7 +21,7 @@ def get_telco_data():
     # rename columns
     df.columns = df.columns.str.lower().str.replace(' ', '_')
     # drop customer id
-    del df['customerid']
+    # del df['customerid']
     # get names of string columns
     string_cols = df.dtypes[df.dtypes == 'object'].index
     # bring all values in string columns to lower case
@@ -117,7 +117,7 @@ def get_p_values(df: pd.DataFrame, cat_vars: list[str], alpha:float = 0.1):
     
     return p_values
 
-def encode_dict_vect(train, val, test):
+def encode_dict_vect(train, val, test, get_dv = False):
     ''' 
     encodes train/val/test with DictVectorizer
     no first column drop
@@ -135,7 +135,10 @@ def encode_dict_vect(train, val, test):
     X_val = dv.transform(val_dict)
     X_test = dv.transform(test_dict)
 
-    return X_train, X_val, X_test
+    if get_dv:
+        return X_train, X_val, X_test, dv
+    else:
+        return X_train, X_val, X_test
 
 def encode_one_hot(train, val, test):
     ''' 
