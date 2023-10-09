@@ -4,3 +4,5 @@
 data/
 .ipynb_checkpoints
 .bin
+*/helper.py
+*.bin
