@@ -12,3 +12,5 @@ week5/homework
 *.h5
 *.tflite
 evaluations/
+compile_tflite/
+config*
