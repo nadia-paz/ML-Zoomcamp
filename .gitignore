@@ -1,13 +1,16 @@
-*.csv
+
 
 data/
 evaluations/
 compile_tflite/
-homework_w5/*
+clothing-model/
 week5/homework
+homework_w5/
+
 .ipynb_checkpoints
-*.pem
+*.csv
 *.txt
+*.pem
 .bin
 */helper.py
 *.bin
@@ -16,3 +19,4 @@ week5/homework
 *.tflite
 config*
 aws_url.py
+
