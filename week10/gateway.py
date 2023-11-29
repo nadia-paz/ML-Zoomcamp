@@ -1,5 +1,5 @@
 import grpc
-import tensorflow as tf
+#import tensorflow as tf
 from keras_image_helper import create_preprocessor
 from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2_grpc
@@ -8,6 +8,8 @@ from tensorflow_serving.apis import prediction_service_pb2_grpc
 from flask import Flask
 from flask import request
 from flask import jsonify
+
+from proto import np_to_protobuf
 
 # Tensorflow Serving connects on port 8500
 host = 'localhost:8500'
@@ -31,8 +33,9 @@ classes = [
 
 
 # translate NumPy array to TF serving protobuf
-def np_to_protobuf(data):
-    return tf.make_tensor_proto(data, shape=data.shape)
+# replaced with tensorflow protobuf function
+# def np_to_protobuf(data):
+#     return tf.make_tensor_proto(data, shape=data.shape)
 
 def prepare_X(url):
     ''' 
