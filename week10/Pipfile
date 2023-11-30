@@ -8,11 +8,8 @@ grpcio = "==1.42.0"
 flask = "*"
 gunicorn = "*"
 keras-image-helper = "*"
-tensorflow-protobuf = "==2.7.0"
-protobuf = "==3.19"
-requests = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.9"
