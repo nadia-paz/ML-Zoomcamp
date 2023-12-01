@@ -1,0 +1,12 @@
+# model service file for kubernetes
+apiVersion: v1
+kind: Service
+metadata:
+  name: tf-serving-clothing-model
+spec:
+  selector:
+    app: tf-serving-clothing-model
+  ports:
+  - port: 8500 # port on the service
+    targetPort: 8500 # port on the pod, containerPod in model_deployment.yaml
+
