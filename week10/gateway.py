@@ -1,3 +1,4 @@
+import os
 import grpc
 #import tensorflow as tf
 from keras_image_helper import create_preprocessor
@@ -12,7 +13,12 @@ from flask import jsonify
 from proto import np_to_protobuf
 
 # Tensorflow Serving connects on port 8500
-host = 'localhost:8500'
+# host = 'localhost:8500'
+
+# if not default tf serving host, connect on 8500
+# env var for docker compose
+host = os.getenv("TF_SERVING_HOST", "localhost:8500")
+
 # create a grpc channel. Insecure, because everything will be inside Kubernetes
 channel = grpc.insecure_channel(host)
 # initiate Prediction Service Stub
@@ -86,7 +92,10 @@ def predict_endpoint():
 
 
 if __name__ == "__main__":
+    # docker test
     # url = 'http://bit.ly/mlbookcamp-pants'
     # response = predict(url)
     # print(response)
+
+    # flask and docker-compose test
     app.run(debug=True, host='0.0.0.0', port=9696)
