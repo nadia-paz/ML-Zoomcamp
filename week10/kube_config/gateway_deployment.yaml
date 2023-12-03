@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway
+        image: clothing-model-gateway:001
+        resources:
+          limits:
+            memory: "128Mi" # 128 Mb
+            cpu: "100m" # 0.1 of cpu
+        ports:
+        - containerPort: 9696
+        # set environmental variable like in Docker compose file
+        env:
+        - name: TF_SERVING_HOST
+          value: tf-serving-clothing-model.default.svc.cluster.local:8500
