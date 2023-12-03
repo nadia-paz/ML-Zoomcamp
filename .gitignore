@@ -6,6 +6,8 @@ compile_tflite/
 clothing-model/
 week5/homework
 homework_w5/
+ping/
+notes/
 
 .ipynb_checkpoints
 *.csv
@@ -19,4 +21,5 @@ homework_w5/
 *.tflite
 config*
 aws_url.py
+eks*
 
